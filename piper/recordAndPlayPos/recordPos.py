@@ -12,20 +12,21 @@ if __name__ == "__main__":
     # 保存点位的CSV文件路径
     CSV_path = os.path.join(os.path.dirname(__file__), "pos.csv")
     # 初始化并连接机械臂
-    piper = C_PiperInterface()
-    piper.ConnectPort()
+    piper = Piper("can0")
+    interface = piper.init()
+    piper.connect()
     time.sleep(0.1)
 
     def get_pos():
         '''获取机械臂当前关节角度和夹爪角度'''
-        joint_state = piper.GetArmJointMsgs().joint_state
+        joint_state = piper.get_joint_states()[0]
         if have_gripper:
-            return [joint_state.joint_1, joint_state.joint_2, joint_state.joint_3, joint_state.joint_4, joint_state.joint_5, joint_state.joint_6, piper.GetArmGripperMsgs().gripper_state.grippers_angle]
-        return [joint_state.joint_1, joint_state.joint_2, joint_state.joint_3, joint_state.joint_4, joint_state.joint_5, joint_state.joint_6]
+            return joint_state + (piper.get_gripper_states()[0][0], )
+        return joint_state
     
     print("INFO: 请点击示教按钮进入示教模式")
     over_time = time.time() + timeout
-    while piper.GetArmStatus().arm_status.ctrl_mode != 2:
+    while interface.GetArmStatus().arm_status.ctrl_mode != 2:
         if over_time < time.time():
             print("ERROR: 示教模式检测超时，请检查示教模式是否开启")
             exit()
