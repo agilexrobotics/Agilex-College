@@ -38,7 +38,7 @@ if __name__ == "__main__":
     time.sleep(0.1)
 
     def get_pos():
-        '''获取机械臂当前关节角度和夹爪角度'''
+        '''获取机械臂当前关节弧度和夹爪弧度'''
         joint_state = piper.get_joint_states()[0]
         if have_gripper:
             return joint_state + (piper.get_gripper_states()[0][0], )
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         '''停止机械臂；初次退出示教模式需先调用此函数才能使用CAN模式控制机械臂'''
         interface.EmergencyStop(0x01)
         time.sleep(1.0)
-        limit_angle = [0.1745, 0.7854, 0.2094]  # 2、3、5关节角度在限制范围内时才恢复机械臂，防止大角度直接掉落造成损坏
+        limit_angle = [0.1745, 0.7854, 0.2094]  # 2、3、5关节弧度在限制范围内时才恢复机械臂，防止大弧度直接掉落造成损坏
         pos = get_pos()
         while not (abs(pos[1]) < limit_angle[0] and abs(pos[2]) < limit_angle[0] and pos[4] < limit_angle[1] and pos[4] > limit_angle[2]):
             time.sleep(0.01)
