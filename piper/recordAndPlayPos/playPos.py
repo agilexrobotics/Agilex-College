@@ -36,7 +36,7 @@ if __name__ == "__main__":
     time.sleep(0.1)
 
     def get_pos():
-        '''获取机械臂当前关节弧度和夹爪弧度'''
+        '''获取机械臂当前关节弧度和夹爪张开距离'''
         joint_state = piper.get_joint_states()[0]
         if have_gripper:
             return joint_state + (piper.get_gripper_states()[0][0], )
