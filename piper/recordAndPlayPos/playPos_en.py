@@ -1,62 +1,62 @@
 #!/usr/bin/env python3
 # -*-coding:utf8-*-
-# Playback recorded positions
+# Play positions
 import os, time, csv
 from piper_sdk import Piper
 
 if __name__ == "__main__":
     # Whether there is a gripper
     have_gripper = True
-    # Playback times (0 means infinite loop)
+    # Number of playbacks, 0 means infinite loop
     play_times = 1
-    # Playback interval in seconds (negative means manual key control)
+    # Playback interval, unit: second; negative value means manual key control
     play_interval = 0
-    # Motion speed percentage (recommended range: 10-100)
+    # Movement speed percentage, recommended range: 10-100
     move_spd_rate_ctrl = 100
-    # CAN mode switch timeout in seconds
+    # Timeout for switching to CAN mode, unit: second
     timeout = 5.0
-    # CSV file path for saved positions
+    # CSV file path for saving positions
     CSV_path = os.path.join(os.path.dirname(__file__), "pos.csv")
-    # Read position file
+    # Read the position file
     try:
         with open(CSV_path, 'r', encoding='utf-8') as f:
             track = list(csv.reader(f))
             if not track:
                 print("ERROR: Position file is empty")
                 exit()
-            track = [[float(j) for j in i] for i in track]    # Convert to float lists
+            track = [[float(j) for j in i] for i in track]    # Convert to a list of floating-point numbers
     except FileNotFoundError:
-        print("ERROR: Position file not found")
+        print("ERROR: Position file does not exist")
         exit()
 
-    # Initialize and connect to robotic arm
+    # Initialize and connect the robotic arm
     piper = Piper("can0")
     interface = piper.init()
     piper.connect()
     time.sleep(0.1)
 
     def get_pos():
-        '''Get current joint angles and gripper opening distance'''
+        '''Get the current joint radians of the robotic arm and the gripper opening distance'''
         joint_state = piper.get_joint_states()[0]
         if have_gripper:
             return joint_state + (piper.get_gripper_states()[0][0], )
-        return joint_state
-    
+        return joint_state    
+
     def stop():
-        '''Stop robotic arm; must call this function when first exiting teach mode before using CAN mode'''
+        '''Stop the robotic arm; this function must be called first when exiting the teaching mode for the first time to control the robotic arm in CAN mode'''
         interface.EmergencyStop(0x01)
         time.sleep(1.0)
-        limit_angle = [0.1745, 0.7854, 0.2094]  # Arm only restored when joints 2,3,5 are within safe range
+        limit_angle = [0.1745, 0.7854, 0.2094]  # The robotic arm can be restored only when the radians of joints 2, 3, and 5 are within the limit range to prevent damage caused by falling from a large radian
         pos = get_pos()
         while not (abs(pos[1]) < limit_angle[0] and abs(pos[2]) < limit_angle[0] and pos[4] < limit_angle[1] and pos[4] > limit_angle[2]):
             time.sleep(0.01)
             pos = get_pos()
-        # Restore arm
+        # Restore the robotic arm
         piper.disable_arm()
         time.sleep(1.0)
     
     def enable():
-        '''Enable robotic arm and gripper'''
+        '''Enable the robotic arm and gripper'''
         while not piper.enable_arm():
             time.sleep(0.01)
         if have_gripper:
@@ -65,34 +65,34 @@ if __name__ == "__main__":
         interface.ModeCtrl(0x01, 0x01, move_spd_rate_ctrl, 0x00)
         print("INFO: Enable successful")
 
-    print("step 1: Ensure robotic arm has exited teach mode before playback")
+    print("step 1:  Please ensure the robotic arm has exited the teaching mode before playback")
     if interface.GetArmStatus().arm_status.ctrl_mode != 1:
-        stop()  # Must call this when first exiting teach mode to switch to CAN mode
+        stop()  # This function must be called first when exiting the teaching mode for the first time to switch to CAN mode
     over_time = time.time() + timeout
     while interface.GetArmStatus().arm_status.ctrl_mode != 1:
         if over_time < time.time():
-            print("ERROR: CAN mode switch failed. Please confirm teach mode is exited")
+            print("ERROR: Failed to switch to CAN mode, please check if the teaching mode is exited")
             exit()
         interface.ModeCtrl(0x01, 0x01, move_spd_rate_ctrl, 0x00)
         time.sleep(0.01)
     
     enable()
     count = 0
-    input("step 2: Press Enter to start position playback")
+    input("step 2: Press Enter to start playing positions")
     while play_times == 0 or abs(play_times) != count:
         for n, pos in enumerate(track):
             while True:
                 piper.move_j(pos[:-1], move_spd_rate_ctrl)
                 time.sleep(0.01)
                 current_pos = get_pos()
-                print(f"INFO: Playback #{count + 1}, position #{n + 1}, current: {current_pos}, target: {pos}")
+                print(f"INFO: {count + 1}th playback, {n + 1}th position, current position: {current_pos}, target position: {pos}")
                 if all(abs(current_pos[i] - pos[i]) < 0.0698 for i in range(6)):
                     break
             if have_gripper and len(pos) == 7:
                 piper.move_gripper(pos[-1], 1)
                 time.sleep(0.5)
             if play_interval < 0:
-                if n != len(track) - 1 and input("INPUT: Enter 'q' to quit, press Enter to continue: ") == 'q':
+                if n != len(track) - 1 and input("INPUT: Enter 'q' to exit, press Enter directly to play:  ") == 'q':
                     exit()
             else:
                 time.sleep(play_interval)
