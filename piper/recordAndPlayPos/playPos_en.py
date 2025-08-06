@@ -1,98 +1,98 @@
 #!/usr/bin/env python3
 # -*-coding:utf8-*-
-# 播放点位
+# Playback recorded positions
 import os, time, csv
 from piper_sdk import Piper
 
 if __name__ == "__main__":
-    # 是否有夹爪
+    # Whether there is a gripper
     have_gripper = True
-    # 播放次数，0表示无限循环
+    # Playback times (0 means infinite loop)
     play_times = 1
-    # 播放间隔，单位：秒，负数表示人工按键控制
+    # Playback interval in seconds (negative means manual key control)
     play_interval = 0
-    # 运动速度百分比，建议范围：10-100
+    # Motion speed percentage (recommended range: 10-100)
     move_spd_rate_ctrl = 100
-    # 切换CAN模式超时时间，单位：秒
+    # CAN mode switch timeout in seconds
     timeout = 5.0
-    # 保存点位的CSV文件路径
+    # CSV file path for saved positions
     CSV_path = os.path.join(os.path.dirname(__file__), "pos.csv")
-    # 读取点位文件
+    # Read position file
     try:
         with open(CSV_path, 'r', encoding='utf-8') as f:
             track = list(csv.reader(f))
             if not track:
-                print("ERROR: 点位文件为空")
+                print("ERROR: Position file is empty")
                 exit()
-            track = [[float(j) for j in i] for i in track]    # 转换为浮点数列表
+            track = [[float(j) for j in i] for i in track]    # Convert to float lists
     except FileNotFoundError:
-        print("ERROR: 点位文件不存在")
+        print("ERROR: Position file not found")
         exit()
 
-    # 初始化并连接机械臂
+    # Initialize and connect to robotic arm
     piper = Piper("can0")
     interface = piper.init()
     piper.connect()
     time.sleep(0.1)
 
     def get_pos():
-        '''获取机械臂当前关节弧度和夹爪张开距离'''
+        '''Get current joint angles and gripper opening distance'''
         joint_state = piper.get_joint_states()[0]
         if have_gripper:
             return joint_state + (piper.get_gripper_states()[0][0], )
         return joint_state
     
     def stop():
-        '''停止机械臂；初次退出示教模式需先调用此函数才能使用CAN模式控制机械臂'''
+        '''Stop robotic arm; must call this function when first exiting teach mode before using CAN mode'''
         interface.EmergencyStop(0x01)
         time.sleep(1.0)
-        limit_angle = [0.1745, 0.7854, 0.2094]  # 2、3、5关节弧度在限制范围内时才恢复机械臂，防止大弧度直接掉落造成损坏
+        limit_angle = [0.1745, 0.7854, 0.2094]  # Arm only restored when joints 2,3,5 are within safe range
         pos = get_pos()
         while not (abs(pos[1]) < limit_angle[0] and abs(pos[2]) < limit_angle[0] and pos[4] < limit_angle[1] and pos[4] > limit_angle[2]):
             time.sleep(0.01)
             pos = get_pos()
-        # 恢复机械臂
+        # Restore arm
         piper.disable_arm()
         time.sleep(1.0)
     
     def enable():
-        '''使能机械臂和夹爪'''
+        '''Enable robotic arm and gripper'''
         while not piper.enable_arm():
             time.sleep(0.01)
         if have_gripper:
             time.sleep(0.01)
             piper.enable_gripper()
         interface.ModeCtrl(0x01, 0x01, move_spd_rate_ctrl, 0x00)
-        print("INFO: 使能成功")
+        print("INFO: Enable successful")
 
-    print("step 1: 播放前请确保机械臂已退出示教模式")
+    print("step 1: Ensure robotic arm has exited teach mode before playback")
     if interface.GetArmStatus().arm_status.ctrl_mode != 1:
-        stop()  # 初次退出示教模式需先调用此函数才能切换至CAN模式
+        stop()  # Must call this when first exiting teach mode to switch to CAN mode
     over_time = time.time() + timeout
     while interface.GetArmStatus().arm_status.ctrl_mode != 1:
         if over_time < time.time():
-            print("ERROR: CAN模式切换失败，请检查是否退出示教模式")
+            print("ERROR: CAN mode switch failed. Please confirm teach mode is exited")
             exit()
         interface.ModeCtrl(0x01, 0x01, move_spd_rate_ctrl, 0x00)
         time.sleep(0.01)
     
     enable()
     count = 0
-    input("step 2: 回车开始播放点位")
+    input("step 2: Press Enter to start position playback")
     while play_times == 0 or abs(play_times) != count:
         for n, pos in enumerate(track):
             while True:
                 piper.move_j(pos[:-1], move_spd_rate_ctrl)
                 time.sleep(0.01)
                 current_pos = get_pos()
-                print(f"INFO: 第{count + 1}次播放，第{n + 1}个点位，当前位置: {current_pos}，目标位置: {pos}")
+                print(f"INFO: Playback #{count + 1}, position #{n + 1}, current: {current_pos}, target: {pos}")
                 if all(abs(current_pos[i] - pos[i]) < 0.0698 for i in range(6)):
                     break
             if have_gripper and len(pos) == 7:
                 piper.move_gripper(pos[-1], 1)
                 time.sleep(0.5)
             if play_interval < 0:
-                if n != len(track) - 1 and input("INPUT: 输入 q 退出，直接回车播放: ") == 'q':
+                if n != len(track) - 1 and input("INPUT: Enter 'q' to quit, press Enter to continue: ") == 'q':
                     exit()
             else:
                 time.sleep(play_interval)
