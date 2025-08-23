@@ -45,21 +45,21 @@ def normalize_quat(q):
 
 class EKFAHRS:
     def __init__(self):
-        # 状态向量: [q0, q1, q2, q3, bgx, bgy, bgz]
+        # State vector: [q0, q1, q2, q3, bgx, bgy, bgz]
         self.x = np.zeros(7)
-        self.x[0] = 1.0  # 初始四元数
+        self.x[0] = 1.0  # Initial quaternion
         self.P = np.eye(7)
-        # 噪声参数
+        # Noise parameters
         self.Q = np.diag([1e-6]*4 + [1e-8]*3)
         self.R = np.diag([1e-1]*3)
         self.g = 9.81
 
     def set_init(self, acc, mag):
-        # acc: 3, mag: 3, 单位g和μT
+        # acc: 3, mag: 3, units g and μT
         acc = acc / np.linalg.norm(acc)
         pitch = np.arcsin(-acc[0])
         roll = np.arctan2(acc[1], acc[2])
-        # yaw初始化用磁力计
+        # Initialize yaw using magnetometer
         mx, my, mz = mag
         mag_x = mx * np.cos(pitch) + my * np.sin(roll) * np.sin(pitch) + mz * np.cos(roll) * np.sin(pitch)
         mag_y = my * np.cos(roll) - mz * np.sin(roll)
@@ -83,15 +83,15 @@ class EKFAHRS:
         q_new = q + dq * dt
         q_new = normalize_quat(q_new)
         self.x[:4] = q_new
-        # 状态转移矩阵近似
+        # Approximate state transition matrix
         F = np.eye(7)
         F[:4, :4] += 0.5 * Omega * dt
         self.P = F @ self.P @ F.T + self.Q
 
     def update(self, acc):
-        # acc: 3, 单位g
+        # acc: 3, unit g
         q = self.x[:4]
-        # 观测模型: acc = R(q)^T * [0,0,1]
+        # Observation model: acc = R(q)^T * [0,0,1]
         hx = np.array([
             2*(q[1]*q[3] - q[0]*q[2]),
             2*(q[0]*q[1] + q[2]*q[3]),
@@ -99,7 +99,7 @@ class EKFAHRS:
         ])
         acc = acc / np.linalg.norm(acc)
         y = acc - hx
-        # 雅可比矩阵
+        # Jacobian matrix
         H = np.zeros((3,7))
         q0, q1, q2, q3 = q
         H[0,0] = -2*q2
@@ -139,7 +139,7 @@ async def echo(websocket):
                 sensor_data[sensor_name]['z'] = float(data.get('z', 0))
                 sensor_data[sensor_name]['timestamp'] = timestamp
 
-                # 判断三种数据是否都新鲜
+                # Check if all three types of data are fresh
                 accel_ts = sensor_data['accelerometer']['timestamp']
                 gyro_ts = sensor_data['gyroscope']['timestamp']
                 mag_ts = sensor_data['magnetometer']['timestamp']
@@ -148,10 +148,10 @@ async def echo(websocket):
                     dt = current_time - last_time
                     last_time = current_time
 
-                    # 单位说明：
-                    # 加速度计 ax,ay,az 单位为 g（重力加速度）
-                    # 陀螺仪 gx,gy,gz 单位为 rad/s
-                    # 磁力计 mx,my,mz 单位为 μT
+                    # Unit Explanation:
+                    # Accelerometer ax, ay, az units are g (gravity)
+                    # Gyroscope gx, gy, gz units are rad/s
+                    # Magnetometer mx, my, mz units are μT
                     gx = sensor_data['gyroscope']['x']
                     gy = sensor_data['gyroscope']['y']
                     gz = sensor_data['gyroscope']['z']
@@ -162,18 +162,18 @@ async def echo(websocket):
                     my = sensor_data['magnetometer']['y']
                     mz = sensor_data['magnetometer']['z']
 
-                    # EKF初始化
+                    # EKF Initialization
                     if not ekf_initialized:
                         ekf.set_init(np.array([ax, ay, az]), np.array([mx, my, mz]))
                         ekf_initialized = True
 
-                    # EKF解算
+                    # EKF Calculation
                     ekf.predict(np.array([gx, gy, gz]), dt)
                     ekf.update(np.array([ax, ay, az]))
                     epitch, eroll, eyaw = ekf.get_euler()
                     print(f"EKF - Roll: {math.degrees(eroll):.2f}, Pitch: {math.degrees(epitch):.2f}, Yaw: {math.degrees(eyaw):.2f}")
 
-                    # 将结果发送到机械臂
+                    # Send results to the robotic arm
                     ctl = [round(initial_position[0] * 1000),
                            round(initial_position[1] * 1000),
                            round(initial_position[2] * 1000),
@@ -195,20 +195,20 @@ if __name__ == "__main__":
     robot = C_PiperInterface_V2()
     robot.ConnectPort()
 
-    # 使能Piper
+    # Enable Piper
     while not robot.EnablePiper():
         time.sleep(0.01)
         
-    # 设置控制模式
+    # Set control mode
     mode = 0xAD
     spd = 100
     robot.MotionCtrl_2(0x01, 0x00, spd, mode)
     time.sleep(0.1)
     robot.MotionCtrl_2(0x01, 0x00, spd, mode)
 
-    # 设置初始位置
+    # Set initial position
     initial_position = [0, 0, 500]  # X, Y, Z (0.001mm)
-    # 发送初始位置到机械臂
+    # Send initial position to the robotic arm
     robot.EndPoseCtrl(
                     initial_position[0] * 1000,     # X
                     initial_position[1] * 1000,     # Y
@@ -218,7 +218,7 @@ if __name__ == "__main__":
                     0 * 1000                        # RZ
                 )
     
-    # 传感器数据缓存
+    # Sensor data cache
     sensor_data = {
         'accelerometer': {'x': 0.0, 'y': 0.0, 'z': 0.0, 'timestamp': 0},
         'gyroscope': {'x': 0.0, 'y': 0.0, 'z': 0.0, 'timestamp': 0},
@@ -236,5 +236,5 @@ if __name__ == "__main__":
     print("Your Computer IP Address is: " + IPAddr)
     print("* Enter {0}:{1} in the app.\n* Press the 'Set IP Address' button.\n* Select the sensors to stream.\n* Update the 'update interval' by entering a value in ms.".format(IPAddr, port))
 
-    # 启动WebSocket服务器
+    # Start WebSocket server
     asyncio.run(main())
