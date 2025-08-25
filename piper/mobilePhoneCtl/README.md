@@ -77,3 +77,7 @@ github链接：[https://github.com/agilexrobotics/Agilex-College/tree/master/pip
 - 请确保手机和电脑处于同一局域网内，且防火墙允许 5000 端口通信。
 - 机械臂运动前请确保安全，避免碰撞。
 - 若需修改端口或初始位置，请编辑 [`main.py`](main.py) 中相关参数。
+
+## 参考文献
+
+- [基于EKF的航姿解算(AHRS)](https://zhuanlan.zhihu.com/p/103617763)
