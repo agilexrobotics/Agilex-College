@@ -17,7 +17,7 @@ github链接：[https://github.com/agilexrobotics/Agilex-College/tree/master/pip
 ## 环境配置
 
 - 操作系统：Ubuntu（推荐Ubuntu 18.04或更高版本）
-- Python环境：Python 3.6或更高版本
+- Python环境：Python 3.7或更高版本
 
 - 克隆项目：
 

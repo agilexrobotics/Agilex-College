@@ -125,7 +125,7 @@ class EKFAHRS:
         return euler_from_quat(self.x[:4])
 
 
-async def echo(websocket):
+async def echo(websocket, path):
     global last_time, ekf_initialized
     async for message in websocket:
         try:
