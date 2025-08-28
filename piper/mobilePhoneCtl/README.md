@@ -12,12 +12,12 @@ github链接：[https://github.com/agilexrobotics/Agilex-College/tree/master/pip
 
 ## 功能演示
 
-[![](https://i2.hdslb.com/bfs/archive/638fe3c3e3160d32171d58109876286d6a48895e.jpg@672w_378h_1c.webp)](https://www.bilibili.com/video/BV1zvebzDEWR/)
+[![](https://i1.hdslb.com/bfs/archive/1eea279e1a2e6609e10a055ae29cfefc678ed2ad.jpg@672w_378h_1c.webp)](https://www.bilibili.com/video/BV1zvebzDEWR/)
 
 ## 环境配置
 
 - 操作系统：Ubuntu（推荐Ubuntu 18.04或更高版本）
-- Python环境：Python 3.6或更高版本
+- Python环境：Python 3.7或更高版本
 
 - 克隆项目：
 
@@ -77,3 +77,7 @@ github链接：[https://github.com/agilexrobotics/Agilex-College/tree/master/pip
 - 请确保手机和电脑处于同一局域网内，且防火墙允许 5000 端口通信。
 - 机械臂运动前请确保安全，避免碰撞。
 - 若需修改端口或初始位置，请编辑 [`main.py`](main.py) 中相关参数。
+
+## 参考文献
+
+- [基于EKF的航姿解算(AHRS)](https://zhuanlan.zhihu.com/p/103617763)
