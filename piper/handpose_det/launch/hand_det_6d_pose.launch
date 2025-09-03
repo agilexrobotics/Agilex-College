@@ -1,0 +1,20 @@
+<launch>
+    <arg name="use_piper_ros_pinocciao" default="true"/>
+    <arg name="max_iterations" default="50"/>
+    <arg name="publish_rate" default="30"/>
+    
+    <include file="$(find astra_camera)/launch/gemini_a.launch"/>
+
+    <node pkg="handpose_det" type="handpose_det_new_ik.py" name="handpose_det_new_ik_node" output="screen">
+    </node>
+
+    <node pkg="piper_kinematics" type="piper_ik_node" name="piper_ik_node" output="screen">
+        <param name="use_piper_ros_pinocciao" value="$(arg use_piper_ros_pinocciao)"/>
+        <param name="max_iterations" value="$(arg max_iterations)"/>
+        <param name="publish_rate" value="$(arg publish_rate)"/>
+    </node>
+
+    <node pkg="piper_kinematics" type="interactive_pose_marker.py" name="interactive_pose_marker_node" output="screen">
+    </node>
+
+</launch>
