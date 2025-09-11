@@ -13,7 +13,7 @@
 | [机械臂识别方块与曲线](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/cubeAndLineDet) | 使用相机识别方块和曲线；并使Piper机械臂跟随曲线 |
 | [手机陀螺仪控制机械臂](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/mobilePhoneCtl) | 使用手机陀螺仪遥操作Piper机械臂                 |               |
 | [手势遥操机械臂](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/handpose_det) | 使用手势遥操作Piper机械臂末端六自由度位姿                 |
-| [手势遥操机械臂](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_kinematics) | 机械臂逆解数值教学与Piper底层解析解的调用                 |
+| [Piper功能包](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_kinematics) | 机械臂逆解数值教学与Piper底层解析解的调用                 |
 
 更多内容欢迎关注松灵机器人
 
