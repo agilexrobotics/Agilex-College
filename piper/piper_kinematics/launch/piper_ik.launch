@@ -1,0 +1,17 @@
+<launch>
+    <arg name="max_iterations" default="50"/>
+    <arg name="damping_factor" default="0.1"/>
+    <arg name="publish_rate" default="30"/>  <!-- 'c' for CPU or 'g' for GPU post-processing -->
+    <arg name="use_analytic_ik" default="false"/>
+
+
+    <node pkg="piper_kinematics" type="piper_ik_node" name="piper_ik_node" output="screen">
+        <param name="max_iterations" value="$(arg max_iterations)"/>
+        <param name="damping_factor" value="$(arg damping_factor)"/>
+        <param name="publish_rate" value="$(arg publish_rate)"/>
+        <param name="use_analytic_ik" value="$(arg use_analytic_ik)"/>
+    </node>
+
+    <node pkg="piper_kinematics" type="interactive_pose_marker.py" name="interactive_pose_marker_node" output="screen">
+    </node>
+</launch>
