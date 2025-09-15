@@ -1,0 +1,88 @@
+<mujoco>
+    <option timestep="0.01"/>
+    <option cone="elliptic"/>
+    <option impratio="0.5"/>
+    
+    <worldbody>
+        <!-- 地面 -->
+        <geom name="ground" type="plane" size="5 5 0.1" rgba="0.8 0.9 0.8 1"
+              friction="1 0.5 0.1" solimp="0.9 0.95 0.001" solref="0.02 1"/>
+        
+        <!-- 小车底盘 -->
+        <body name="chassis" pos="0 0 0.2">
+            <freejoint name="chassis_free"/>
+            <geom name="chassis_geom" type="box" size="0.2 0.15 0.05" mass="2" rgba="0.3 0.5 0.8 1"/>
+            
+            <!-- 前左轮 -->
+            <body name="left_f_wheel" pos="-0.15 0.15 0" euler="0 0 0">
+                <joint name="left_wheel_f_joint" type="hinge" axis="0 -1 0" limited="false" damping="0.1"/>
+                <geom name="left_wheel_f_core" type="cylinder" size="0.08 0.02" mass="0.3" rgba="0.2 0.2 0.2 1" euler="90 0 0"/>
+                
+                <!-- 滚子 -->
+                <body name="left_f_roller1" pos="0.08 0 0" euler="0 45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+                <body name="left_f_roller2" pos="-0.08 0 0" euler="0 45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+            </body>
+            
+            <!-- 前右轮 -->
+            <body name="right_f_wheel" pos="-0.15 -0.15 0" euler="0 0 0">
+                <joint name="right_wheel_f_joint" type="hinge" axis="0 -1 0" limited="false" damping="0.1"/>
+                <geom name="right_wheel_f_core" type="cylinder" size="0.08 0.02" mass="0.3" rgba="0.2 0.2 0.2 1" euler="90 0 0"/>
+                
+                <!-- 滚子 -->
+                <body name="right_f_roller1" pos="0.08 0 0" euler="0 -45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+                <body name="right_f_roller2" pos="-0.08 0 0" euler="0 -45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+            </body>
+            
+            <!-- 后左轮 -->
+            <body name="left_b_wheel" pos="0.15 0.15 0" euler="0 0 0">
+                <joint name="left_wheel_b_joint" type="hinge" axis="0 -1 0" limited="false" damping="0.1"/>
+                <geom name="left_wheel_b_core" type="cylinder" size="0.08 0.02" mass="0.3" rgba="0.2 0.2 0.2 1" euler="90 0 0"/>
+                
+                <!-- 滚子 -->
+                <body name="left_b_roller1" pos="0.08 0 0" euler="0 -45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+                <body name="left_b_roller2" pos="-0.08 0 0" euler="0 -45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+            </body>
+            
+            <!-- 后右轮 -->
+            <body name="right_b_wheel" pos="0.15 -0.15 0" euler="0 0 0">
+                <joint name="right_wheel_b_joint" type="hinge" axis="0 -1 0" limited="false" damping="0.1"/>
+                <geom name="right_wheel_b_core" type="cylinder" size="0.08 0.02" mass="0.3" rgba="0.2 0.2 0.2 1" euler="90 0 0"/>
+                
+                <!-- 滚子 -->
+                <body name="right_b_roller1" pos="0.08 0 0" euler="0 45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+                <body name="right_b_roller2" pos="-0.08 0 0" euler="0 45 0">
+                    <joint type="hinge" axis="0 0 1" limited="false"/>
+                    <geom type="capsule" fromto="0 -0.02 0 0 0.02 0" size="0.01" mass="0.05" rgba="0.5 0.5 0.5 1"/>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+    
+    <actuator>
+        <motor name="left_f_wheel_motor" joint="left_wheel_f_joint" gear="1" ctrllimited="true" ctrlrange="-2 2"/>
+        <motor name="right_f_wheel_motor" joint="right_wheel_f_joint" gear="1" ctrllimited="true" ctrlrange="-2 2"/>
+        <motor name="left_b_wheel_motor" joint="left_wheel_b_joint" gear="1" ctrllimited="true" ctrlrange="-2 2"/>
+        <motor name="right_b_wheel_motor" joint="right_wheel_b_joint" gear="1" ctrllimited="true" ctrlrange="-2 2"/>
+    </actuator>
+</mujoco>

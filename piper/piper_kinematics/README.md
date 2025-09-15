@@ -154,7 +154,7 @@ ros2 launch piper_kinematics test_fk.launch.py
 2. 启动RVIZ仿真程序，开启显示TF树，观察计算的<font style="background-color:#FBDE28;">FK所得的机械臂末端</font>`link6_from_fk`的姿态是否和机器人原本的`link6`（由joint_state_publisher计算）是否重合
 
 ```bash
-ros2 launch  piper_description display_piper_with_joint_state_pub_gui..launch.py 
+ros2 launch  piper_description display_piper_with_joint_state_pub_gui.launch.py 
 ```
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/51431964/1753868404196-18aa0d44-eeb5-4137-9977-b526d399b806.png)

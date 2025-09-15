@@ -1,0 +1,115 @@
+<mujoco model="ranger_mini_v3">
+    <compiler angle="radian" meshdir="/home/khalillee/sim1_ws/src/ugv_gazebo_sim/ranger_mini/ranger_mini_v3/meshes/" />
+    <size njmax="500" nconmax="100" />
+
+    <!-- 全局物理参数 -->
+    <option timestep="0.002"/>
+    <option cone="elliptic"/>
+    <option impratio="0.5"/>
+    <option integrator="RK4"/>  <!-- 更稳定的积分器 -->
+    <!-- Add air resistance -->
+    <option wind="0 0 0" density="1.2" viscosity="1.8e-5"/>
+    <!-- Enable gravity compensation -->
+    <option gravity="0 0 -9.81"/>
+
+    <asset>
+        <mesh name="ranger_base" file="ranger_base.stl" scale="1 1 1" />
+        <mesh name="steering_wheel" file="steering_wheel.stl" scale="10 10 10" />
+        <mesh name="wheel_v3" file="wheel_v3.stl" scale="10 10 10" />
+    </asset>
+    <worldbody>
+        <!-- 地面 (添加摩擦参数) -->
+        <geom name="ground" type="plane" size="10 10 0.1" rgba="0.1 0.1 0.1 1" pos="0 0 -0.31"
+        solimp="0.9 0.99 0.001" solref="0.01 1" friction="0.7 0.6 0.7" solmix="0.95"/>
+        
+        <body name="base_link" pos="0 0 0">
+            <freejoint name="base_free_joint"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" mass="3" rgba="0.792157 0.819608 0.933333 1" mesh="ranger_base" friction="0.8 0.3 1"/>
+            <!-- <geom size="0.25 0.175 0.1" pos="0 0 -0.1" type="box" rgba="0.792157 0.819608 0.933333 1" /> -->
+            <body name="fr_steering_wheel_link" pos="0.25 -0.19 -0.1">
+                <inertial pos="1.8493e-05 1.2713e-06 0.043679" quat="-0.070656 0.703532 0.070657 0.703603" mass="1" diaginertia="0.010465 0.00636302 0.00636248" />
+                <joint name="fr_steering_joint" type="hinge" pos="0 0 0" axis="0 0 -1" limited="true" range="-2.1 2.1" damping="0.5"/>
+                <geom type="mesh" contype="1" conaffinity="1" group="1" rgba="0.79216 0.81961 0.93333 1" mesh="steering_wheel" mass="0.2" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1"/>
+                <!-- <geom size="0.001 0.0005" type="cylinder" rgba="0.79216 0.81961 0.93333 1" /> -->
+                <body name="fr_wheel_link" pos="0 0 -0.12">
+                    <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="8" diaginertia="0.0324 0.02047 0.02047" />
+                    <joint name="fr_wheel" type="hinge" pos="0 0 0" axis="0 1 0" />
+                    <geom quat="0.000796327 1 0 0" type="mesh" contype="1" conaffinity="1" group="1" mesh="wheel_v3" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1" mass="1"/>
+                    <!-- <geom size="0.09 0.04" pos="0 0 -0.005" quat="0.707388 0.706825 0 0" type="cylinder" /> -->
+                </body>
+            </body>
+            <body name="fl_steering_wheel_link" pos="0.25 0.19 -0.1">
+                <inertial pos="-0.0017956 -9.6304e-08 0.043642" quat="-0.0165928 0.692206 0.0172886 0.721302" mass="1" diaginertia="0.0104649 0.006363 0.00636255" />
+                <joint name="fl_steering_joint" type="hinge" pos="0 0 0" axis="0 0 -1" limited="true" range="-2.1 2.1" damping="0.5"/>
+                <geom quat="0.000796327 0 0 1" type="mesh" contype="1" conaffinity="1" group="1" rgba="0.79216 0.81961 0.93333 1" mesh="steering_wheel" mass="0.2" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1"/>
+                <!-- <geom size="0.001 0.0005" type="cylinder" rgba="0.79216 0.81961 0.93333 1" /> -->
+                <body name="fl_wheel_link" pos="0 0 -0.12">
+                    <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="8" diaginertia="0.0324 0.02047 0.02047" />
+                    <joint name="fl_wheel" type="hinge" pos="0 0 0" axis="0 1 0" />
+                    <geom type="mesh" contype="1" conaffinity="1" group="1" mesh="wheel_v3" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1" mass="1"/>
+                    <!-- <geom size="0.09 0.04" pos="0 0 -0.005" quat="0.707388 0.706825 0 0" type="cylinder" /> -->
+                </body>
+            </body>
+            <body name="rl_steering_wheel_link" pos="-0.25 0.19 -0.1">
+                <inertial pos="-0.00017093 6.1255e-08 0.043678" quat="-0.020441 0.705442 0.0205219 0.708176" mass="1" diaginertia="0.0104651 0.006363 0.00636264" />
+                <joint name="rl_steering_joint" type="hinge" pos="0 0 0" axis="0 0 -1" limited="true" range="-2.1 2.1" damping="0.5"/>
+                <geom quat="0.000796327 0 0 1" type="mesh" contype="1" conaffinity="1" group="1" rgba="0.79216 0.81961 0.93333 1" mesh="steering_wheel" mass="0.2" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1"/>
+                <!-- <geom size="0.001 0.0005" type="cylinder" rgba="0.79216 0.81961 0.93333 1" /> -->
+                <body name="rl_wheel_link" pos="0 0 -0.12">
+                    <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="8" diaginertia="0.0324 0.02047 0.02047" />
+                    <joint name="rl_wheel" type="hinge" pos="0 0 0" axis="0 1 0" />
+                    <geom type="mesh" contype="1" conaffinity="1" group="1" mesh="wheel_v3" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1" mass="1"/>
+                    <!-- <geom size="0.09 0.04" pos="0 0 -0.005" quat="0.707388 0.706825 0 0" type="cylinder" /> -->
+                </body>
+            </body>
+            <body name="rr_steering_wheel_link" pos="-0.23 -0.206 -0.1">
+                <inertial pos="0 0 0" mass="1" diaginertia="0.01 0.01 0.01" />
+                <joint name="rr_steering_joint" type="hinge" pos="0 0 0" axis="0 0 -1" limited="true" range="-2.1 2.1" damping="0.5"/>
+                <geom type="mesh" contype="1" conaffinity="1" group="1" mesh="steering_wheel" mass="0.2" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1"/>
+                <!-- <geom size="0.001 0.0005" type="cylinder" /> -->
+                <body name="rr_wheel_link" pos="0 0 -0.12">
+                    <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="8" diaginertia="0.0324 0.02047 0.02047" />
+                    <joint name="rr_wheel" type="hinge" pos="0 0 0" axis="0 1 0" />
+                    <geom quat="0.000796327 1 0 0" type="mesh" contype="1" conaffinity="1" group="1" mesh="wheel_v3" friction="0.03 0.7 1" solimp="0.9 0.95 0.001" solref="0.01 1" mass="1"/>
+                    <!-- <geom size="0.09 0.04" pos="0 0 -0.005" quat="0.707388 0.706825 0 0" type="cylinder" /> -->
+                </body>
+            </body>
+        </body>
+    </worldbody>
+    <actuator>
+        <!-- 轮驱动 -->
+        <motor name="fl_wheel_motor" joint="fl_wheel" gear="1" forcelimited="true" forcerange="-5 5"/>
+        <motor name="fr_wheel_motor" joint="fr_wheel" gear="1" forcelimited="true" forcerange="-5 5"/>
+        <motor name="rl_wheel_motor" joint="rl_wheel" gear="1" forcelimited="true" forcerange="-5 5"/>
+        <motor name="rr_wheel_motor" joint="rr_wheel" gear="1" forcelimited="true" forcerange="-5 5"/>
+        <!-- 转向驱动 -->
+        <general name="fl_steering" joint="fl_steering_joint" 
+                 gaintype="fixed" gainprm="10" biastype="none"/>
+        <general name="fr_steering" joint="fr_steering_joint" 
+                 gaintype="fixed" gainprm="10" biastype="none"/>
+        <general name="rl_steering" joint="rl_steering_joint" 
+                 gaintype="fixed" gainprm="10" biastype="none"/>        
+        <general name="rr_steering" joint="rr_steering_joint" 
+                 gaintype="fixed" gainprm="10" biastype="none"/>
+    </actuator>
+    <sensor>
+        <!-- 转向关节位置反馈 -->
+        <jointpos name="fl_steering_pos" joint="fl_steering_joint"/>
+        <jointpos name="fr_steering_pos" joint="fr_steering_joint"/>
+        <jointpos name="rl_steering_pos" joint="rl_steering_joint"/>
+        <jointpos name="rr_steering_pos" joint="rr_steering_joint"/>
+        
+        <!-- 转向关节速度反馈 -->
+        <jointvel name="fl_steering_vel" joint="fl_steering_joint"/>
+        <jointvel name="fr_steering_vel" joint="fr_steering_joint"/>
+        <jointvel name="rl_steering_vel" joint="rl_steering_joint"/>
+        <jointvel name="rr_steering_vel" joint="rr_steering_joint"/>
+
+        <!-- 轮速反馈 -->
+        <jointvel name="fl_wheel_vel" joint="fl_wheel"/>
+        <jointvel name="fr_wheel_vel" joint="fr_wheel"/>
+        <jointvel name="rl_wheel_vel" joint="rl_wheel"/>
+        <jointvel name="rr_wheel_vel" joint="rr_wheel"/>
+    </sensor>
+
+</mujoco>

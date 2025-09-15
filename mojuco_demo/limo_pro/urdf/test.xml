@@ -1,0 +1,90 @@
+<mujoco model="limo_four_diff">
+    <compiler angle="radian" meshdir="/home/khalillee/sim1_ws/src/limo/limo_description/meshes/" />
+    <size njmax="500" nconmax="100" />
+    <asset>
+        <mesh name="limo_base_dae2stl" file="limo_base_dae2stl.stl" />
+        <mesh name="limo_wheel_dae2stl" file="limo_wheel_dae2stl.stl" />
+    </asset>
+
+    <!-- 全局物理参数 -->
+    <option timestep="0.005"/>
+    <option cone="elliptic"/>
+    <option impratio="0.5"/>
+    <option integrator="RK4"/>
+    <!-- Add air resistance -->
+    <option wind="0 0 0" density="1.2" viscosity="1.8e-5"/>
+    <!-- Enable gravity compensation -->
+    <option gravity="0 0 -9.81"/>
+
+    <worldbody>
+        <!-- 地面 (添加摩擦参数) -->
+        <geom name="ground" type="plane" size="10 10 0.1" rgba="0.8 0.9 0.8 1"
+            solimp="0.9 0.99 0.001" solref="0.01 1" friction="1.4 0.06 0.005" solmix="0.95"/>
+        <body name="base_link" pos="0 0 0.15">
+            <freejoint name="base_free_joint"/>
+            <geom quat="0.707388 0 0 0.706825" type="mesh" contype="0" conaffinity="0" group="1" mesh="limo_base_dae2stl" mass="3" rgba="0.3 0.5 0.8 1" friction="0.8 0.3 0.1"/>
+            <!-- <geom size="0.065 0.06 0.05" pos="0 0 0.15" type="box" /> -->
+            <!-- <geom size="0.02 0.005" pos="0.103 0 0.116" type="cylinder" contype="0" conaffinity="0" group="1" />
+            <geom size="0.032 0.008" pos="0.103 0 0.116" type="cylinder" />
+            <geom size="0.01 0.03 0.0075" pos="0.084 0 0.18" type="box" contype="0" conaffinity="0" group="1" />
+            <geom size="0.01 0.03 0.0075" pos="0.084 0 0.18" type="box" />
+            <geom size="0.0005 0.0005 0.0005" pos="0 0 0.05" type="box" contype="0" conaffinity="0" group="1" />
+            <geom size="0.0005 0.0005 0.0005" pos="0 0 0.05" type="box" /> -->
+
+            <body name="front_left_wheel_link" pos="0.1 0.065 0.05">
+                <inertial pos="0 0 0" quat="0.707107 0.707107 0 0" mass="0.5" diaginertia="0.01055 0.01055 0.00075" />
+                <joint name="front_left_wheel" type="hinge" pos="0 0 0" axis="0 1 0" damping="0.1"/>
+                <geom type="mesh" mesh="limo_wheel_dae2stl" mass="0.5" 
+                      rgba="0.1 0.1 0.1 1" friction="1.5 0.1 0.005" solimp="0.9 0.95 0.001" solref="0.01 1"
+                      contype="1" conaffinity="1"/>
+                <!-- <geom size="0.05 0.0225" pos="0 0.0225 0" quat="0.707388 0.706825 0 0" type="cylinder" friction="1.2 0.005 0.0001"
+                        solimp="0.9 0.95 0.001" solref="0.02 1"/> -->
+            </body>
+            <body name="front_right_wheel_link" pos="0.1 -0.065 0.05" quat="1.32679e-06 1 0 0">
+                <inertial pos="0 0 0" quat="0.707107 0.707107 0 0" mass="0.5" diaginertia="0.01055 0.01055 0.00075" />
+                <joint name="front_right_wheel" type="hinge" pos="0 0 0" axis="0 -1 0" damping="0.1"/>
+                <geom type="mesh" mesh="limo_wheel_dae2stl" mass="0.5" 
+                      rgba="0.1 0.1 0.1 1" friction="1.5 0.1 0.005" solimp="0.9 0.95 0.001" solref="0.01 1"
+                      contype="1" conaffinity="1"/>
+                <!-- <geom size="0.05 0.0225" pos="0 0.0225 0" quat="0.707388 0.706825 0 0" type="cylinder" friction="1.2 0.005 0.0001"
+                        solimp="0.9 0.95 0.001" solref="0.02 1"/> -->
+            </body>
+            <body name="rear_left_wheel_link" pos="-0.1 0.065 0.05">
+                <inertial pos="0 0 0" quat="0.707107 0.707107 0 0" mass="0.5" diaginertia="0.01055 0.01055 0.00075" />
+                <joint name="rear_left_wheel" type="hinge" pos="0 0 0" axis="0 1 0" damping="0.1"/>
+                <geom type="mesh" mesh="limo_wheel_dae2stl" mass="0.5" 
+                      rgba="0.1 0.1 0.1 1" friction="1.5 0.1 0.005" solimp="0.9 0.95 0.001" solref="0.01 1"
+                      contype="1" conaffinity="1"/>
+                <!-- <geom size="0.05 0.0225" pos="0 0.0225 0" quat="0.707388 0.706825 0 0" type="cylinder" friction="1.2 0.005 0.0001"
+                        solimp="0.9 0.95 0.001" solref="0.02 1"/> -->
+            </body>
+            <body name="rear_right_wheel_link" pos="-0.1 -0.065 0.05" quat="1.32679e-06 1 0 0">
+                <inertial pos="0 0 0" quat="0.707107 0.707107 0 0" mass="0.5" diaginertia="0.01055 0.01055 0.00075" />
+                <joint name="rear_right_wheel" type="hinge" pos="0 0 0" axis="0 -1 0" damping="0.1"/>
+                <geom type="mesh" mesh="limo_wheel_dae2stl" mass="0.5" 
+                      rgba="0.1 0.1 0.1 1" friction="1.5 0.1 0.005" solimp="0.9 0.95 0.001" solref="0.01 1"
+                      contype="1" conaffinity="1"/>
+                <!-- <geom size="0.05 0.0225" pos="0 0.0225 0" quat="0.707388 0.706825 0 0" type="cylinder" friction="1.2 0.005 0.0001"
+                        solimp="0.9 0.95 0.001" solref="0.02 1"/> -->
+            </body>
+        </body>
+    </worldbody>
+    <actuator>
+        <!-- 前轮驱动 -->
+        <motor name="left_f_wheel_motor" joint="front_left_wheel" gear="0.5" ctrllimited="true" ctrlrange="-10 10"
+           forcelimited="true" forcerange="-5 5"/>
+        <motor name="right_f_wheel_motor" joint="front_right_wheel" gear="0.5" ctrllimited="true" ctrlrange="-10 10"
+           forcelimited="true" forcerange="-5 5"/>
+        <!-- 后轮驱动 -->
+        <motor name="left_b_wheel_motor" joint="rear_left_wheel" gear="0.5" ctrllimited="true" ctrlrange="-10 10"
+           forcelimited="true" forcerange="-5 5"/>
+        <motor name="right_b_wheel_motor" joint="rear_right_wheel" gear="0.5" ctrllimited="true" ctrlrange="-10 10"
+           forcelimited="true" forcerange="-5 5"/>
+    </actuator>
+    <sensor>
+        <jointvel name="front_left_wheel_vel_sensor" joint="front_left_wheel" />
+        <jointvel name="front_right_wheel_vel_sensor" joint="front_right_wheel" />
+        <jointvel name="rear_left_wheel_vel_sensor" joint="rear_left_wheel" />
+        <jointvel name="rear_right_wheel_vel_sensor" joint="rear_right_wheel" />
+    </sensor>
+</mujoco>
