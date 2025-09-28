@@ -15,7 +15,6 @@
 | [手势遥操机械臂](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/handpose_det) | 使用手势遥操作Piper机械臂末端六自由度位姿                 |
 | [Piper功能包](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_kinematics) | 机械臂逆解数值教学与Piper底层解析解的调用                 |
 | [游戏手柄](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/gamepad) | 使用游戏手柄遥操机械臂                 |
-| [井字棋](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/tic_tac_toe) | 让机械臂跟你玩井字棋游戏                 |
 
 更多内容欢迎关注松灵机器人
 
