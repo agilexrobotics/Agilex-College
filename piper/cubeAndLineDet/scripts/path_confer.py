@@ -10,7 +10,7 @@ import termios
 from piper_msgs.msg import PosCmd
 import numpy as np
 import tf2_ros
-from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import TransformStamped, PoseStamped
 import tf2_geometry_msgs  # 必须导入，即使看起来没用
 import sensor_msgs.point_cloud2 as pc2
 from tf2_sensor_msgs.tf2_sensor_msgs import do_transform_cloud
@@ -27,8 +27,8 @@ class PointCloudSubscriber:
         # 订阅PointCloud2话题
         self.sub = rospy.Subscriber("/line_path", PointCloud2, self.callback)
         
-        # 发布PosCmd话题
-        self.pos_cmd_pub = rospy.Publisher('/pos_cmd', PosCmd, queue_size=10)
+        # 发布PoseStamped话题
+        self.pos_stamped_pub = rospy.Publisher('/target_pose', PoseStamped, queue_size=10)
         # 发布转换后的点云
         self.cloud_pub = rospy.Publisher('/transformed_cloud', PointCloud2, queue_size=10)
         
@@ -40,17 +40,16 @@ class PointCloudSubscriber:
         self.current_point_idx = 0  # 当前发布的点索引
         self.continuous_publishing = False  # 连续发布标志
         
-        # 初始化PosCmd消息
-        self.msg = PosCmd()
-        self.msg.x = -0.344
-        self.msg.y = 0
-        self.msg.z = 0.11
-        self.msg.pitch = 0
-        self.msg.yaw = 0
-        self.msg.roll = 0
-        self.msg.gripper = 0
-        self.msg.mode1 = 1
-        self.msg.mode2 = 0
+        # 初始化PoseStamped消息
+        self.pose_msg = PoseStamped()
+        self.pose_msg.header.frame_id = "base_link"  # 设置坐标系
+        self.pose_msg.pose.position.x = -0.344
+        self.pose_msg.pose.position.y = 0
+        self.pose_msg.pose.position.z = 0.11
+        self.pose_msg.pose.orientation.x = -1.2287068784644362e-07
+        self.pose_msg.pose.orientation.y = 0.9999563097953796
+        self.pose_msg.pose.orientation.z = 3.6894929333897153e-09
+        self.pose_msg.pose.orientation.w = 0.009380051866173744
         
         # 保存终端设置
         self.old_settings = termios.tcgetattr(sys.stdin)
@@ -65,7 +64,7 @@ class PointCloudSubscriber:
                 return None
             # 获取从frame_1到frame_2的变换
             transform = self.tf_buffer.lookup_transform(
-                'arm_base',                     # 目标坐标系
+                'base_link',                     # 目标坐标系
                 cloud_msg.header.frame_id,     # 源坐标系(通常是frame_1)
                 rospy.Time(0),                # 获取最新可用变换
                 rospy.Duration(1.0)           # 等待1秒
@@ -101,10 +100,10 @@ class PointCloudSubscriber:
     def print_instructions(self):
         print("\nControl commands:")
         print("r: 记录当前点云并转换到frame_2坐标系")
-        print("s: 发送转换后的点云位置到pos_cmd")
+        print("s: 发送转换后的点云位置到target_pose")
         print("p: 开始/停止连续发送所有转换后的点(10Hz)")
         print("Current position: x={:.3f}, y={:.3f}, z={:.3f}".format(
-            self.msg.x, self.msg.y, self.msg.z))
+            self.pose_msg.pose.position.x, self.pose_msg.pose.position.y, self.pose_msg.pose.position.z))
         print("Stored points: {}".format(len(self.transformed_points)))
     
     def callback(self, msg):
@@ -124,25 +123,30 @@ class PointCloudSubscriber:
         # 获取当前点
         point = self.transformed_points[self.current_point_idx]
         
-        # 更新PosCmd消息
-        self.msg.x = -float(point[0])+0.06
-        self.msg.y = -float(point[1])
-        self.msg.z = (-float(point[2]))+0.08
-        # self.msg.z = 0.11
+        # 更新PoseStamped消息
+        self.pose_msg.header.stamp = rospy.Time.now()
+        # self.pose_msg.pose.position.x = -float(point[0]) + 0.06
+        # self.pose_msg.pose.position.y = -float(point[1])
+        # self.pose_msg.pose.position.z = (-float(point[2])) + 0.08
+        self.pose_msg.pose.position.x = float(point[0])
+        self.pose_msg.pose.position.y = float(point[1])
+        self.pose_msg.pose.position.z = float(point[2])
+        
+        # 保持默认姿态（单位四元数）
+        self.pose_msg.pose.orientation.x = -1.2287068784644362e-07
+        self.pose_msg.pose.orientation.y = 0.9999563097953796
+        self.pose_msg.pose.orientation.z = 3.6894929333897153e-09
+        self.pose_msg.pose.orientation.w = 0.009380051866173744
 
-        # print("x:",self.msg.x)
-        # print("y:",self.msg.y)
-        # print("z:",self.msg.z)
-
-        # # 发布当前点
-        self.pos_cmd_pub.publish(self.msg)
+        # 发布当前点
+        self.pos_stamped_pub.publish(self.pose_msg)
         
         # 更新索引（循环）
         self.current_point_idx = (self.current_point_idx + 1) % len(self.transformed_points)
         
         print("Published point {}/{}: x={:.3f}, y={:.3f}, z={:.3f}".format(
             self.current_point_idx, len(self.transformed_points), 
-            self.msg.x, self.msg.y, self.msg.z))
+            self.pose_msg.pose.position.x, self.pose_msg.pose.position.y, self.pose_msg.pose.position.z))
         
         return True
 
