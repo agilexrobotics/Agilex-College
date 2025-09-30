@@ -8,12 +8,13 @@
 
 | 标题                                                         | 描述                                            |
 | ------------------------------------------------------------ | ----------------------------------------------- |
-| [机械臂固定点位录制与播放功能](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/recordAndPlayPos) | 使用Piper录制固定点位运动并播放                 |
-| [机械臂连续轨迹录制与播放功能](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/recordAndPlayTraj) | 使用Piepr录制连续运动的轨迹并播放               |
+| [固定点位录制与播放](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/recordAndPlayPos) | 使用Piper录制固定点位运动并播放                 |
+| [连续轨迹录制与播放](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/recordAndPlayTraj) | 使用Piepr录制连续运动的轨迹并播放               |
 | [机械臂识别方块与曲线](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/cubeAndLineDet) | 使用相机识别方块和曲线；并使Piper机械臂跟随曲线 |
-| [手机陀螺仪控制机械臂](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/mobilePhoneCtl) | 使用手机陀螺仪遥操作Piper机械臂                 |               |
+| [手机陀螺仪遥操机械臂](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/mobilePhoneCtl) | 使用手机陀螺仪遥操机械臂臂                 |               |
 | [手势遥操机械臂](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/handpose_det) | 使用手势遥操作Piper机械臂末端六自由度位姿                 |
 | [Piper功能包](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_kinematics) | 机械臂逆解数值教学与Piper底层解析解的调用                 |
+| [游戏手柄](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/gamepad) | 使用游戏手柄遥操机械臂                 |
 
 更多内容欢迎关注松灵机器人
 
