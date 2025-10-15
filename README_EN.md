@@ -15,6 +15,7 @@ Current Focus: Piper Series Robotic Arm
 | [Hand Gesture Teleoperation](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/handpose_det) | Use hand gestures to teleoperate the 6-DOF pose of the Piper arm's end-effector. |
 | [Piper Kinematics Package](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_kinematics) | Numerical inverse kinematics teaching and calling Piper's underlying analytical solver. |
 | [Gamepad Control](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/gamepad) | Use a gamepad to teleoperate the robotic arm. |
+| [Hand-eye calibration](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/handeye) | Piper hand-eye calibration tutorial. |
 
 For more content, follow 松灵机器人
 
