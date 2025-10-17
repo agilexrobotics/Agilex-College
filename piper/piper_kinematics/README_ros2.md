@@ -144,6 +144,25 @@ Eigen::Matrix4d computeFK(const std::vector<double>& joint_values) {
 }
 ```
 
+## 验证FK计算准确性
+1. 启动正向运动学验证程序
+
+```bash
+ros2 launch piper_kinematics test_fk.launch.py
+```
+
+2. 启动RVIZ仿真程序，开启显示TF树，观察计算的<font style="background-color:#FBDE28;">FK所得的机械臂末端</font>`link6_from_fk`的姿态是否和机器人原本的`link6`（由joint_state_publisher计算）是否重合
+
+```bash
+ros2 launch  piper_description display_piper_with_joint_state_pub_gui.launch.py 
+```
+
+![](https://cdn.nlark.com/yuque/0/2025/png/51431964/1753868404196-18aa0d44-eeb5-4137-9977-b526d399b806.png)
+
+![](https://cdn.nlark.com/yuque/0/2025/png/51431964/1753868434120-16763e64-c292-491b-9ad5-813b38665b09.png)
+
+可以看见重合度很高，且从`link6_from_fk`和`link6`的姿态可以看出误差基本在小数点后四位。
+
 # 逆向运动学解算IK
 逆向运动学IK的计算过程实际上是<font style="background-color:#FBDE28;">给定一个目标点</font>----计算---->><font style="background-color:#FBDE28;">机械臂每个关节要在什么位置才能使机械臂末端到达目标点</font>
 
@@ -277,49 +296,31 @@ std::vector<double> computeIK(const std::vector<double>& initial_guess,
 ```
 
 ## 使用interactive_marker以实现发布机械臂三维空间目标点
-
-1. 安装ROS依赖包
+1. 安装ROS2依赖包
 
 ```cpp
 sudo apt install ros-${ROS_DISTRO}-interactive-markers ros-${ROS_DISTRO}-tf2-ros
 ```
 
-## 编译piper_kinematics功能包
-
-```cpp
-cd ~/your_ws
-catkin_make
-```
-
-1. 一键启动piper_kinematics
-```cpp
-source your_ws/devel/setup.sh
-
-roslaunch piper_kinematics piper_ik.launch
-```
-
 2. 启动interactive_marker_utils实现三维空间目标点发布
 
 ```cpp
-rosrun piper_kinematics interactive_pose_marker.py
+ros2 launch interactive_marker_utils marker.launch.py 
 ```
 
-3. 启动RVIZ观察Marker
+3. 启动RVIZ2观察Marker
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/51431964/1753872321648-69a6f2ba-681b-4a26-81e2-9ac9a753f463.png)
 
-4. 拖动Marker，并用rostopic echo 观察Marker发布的目标点是否有变化
+4. 拖动Marker，并用ros2 topic echo 观察Marker发布的目标点是否有变化
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/51431964/1753872475114-5c107f79-12bd-4eed-a82d-4b3329bcc190.png)
 
 ## 在RVIZ中通过interactive_marker验证IK是否正确
-
 1. 启动松灵PIPER的RVIZ仿真demo，因为此时没有`joint_state_publisher`，所以模型没有正确显示
 
-- 启动之前注意修改默认的piper的urdf的基坐标系"arm_base"为"base_link"
-
 ```cpp
-ros launch piper_description display_piper.launch
+ros2 launch piper_description display_piper.launch.py 
 ```
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/51431964/1753872773158-ea4982f3-9280-4978-86ff-0452e233d76b.png)
@@ -327,7 +328,7 @@ ros launch piper_description display_piper.launch
 2. 接下来启动IK节点和`interactive_marker`节点（在同一个launch文件里）,启动成功后可以看到机械臂正常显示
 
 ```cpp
-ros launch piper_kinematics piper_ik.launch
+ros2 launch piper_kinematics piper_ik.launch.py
 ```
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/51431964/1753873508356-b36b3048-463d-428d-909b-3b55f47c3cc3.png)
@@ -359,26 +360,18 @@ cd piper_ros
 2. 启动PIPER真机控制节点
 
 ```cpp
-ros launch piper start_single_piper_rviz.launch 
+ros2 launch piper my_start_single_piper_rviz.launch.py 
 ```
 
 3. 接下来启动IK节点和`interactive_marker`节点（在同一个launch文件里），可以看到机械臂运动到HOME点
 
 ```cpp
-ros launch piper_kinematics piper_ik.launch
+ros2 launch piper_kinematics piper_ik.launch.py
 ```
 
 4. 拖动`interactive_marker`并观察PIPER机械臂运动情况
 
 [此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/230096875#FvOGu)
-
-
-
-
-    
-
-
-    
 
 
 
