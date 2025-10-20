@@ -16,6 +16,7 @@
 | [Piper_kinematics](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_kinematics) | 机械臂逆解数值教学与Piper底层解析解的调用                 |
 | [游戏手柄](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/gamepad) | 使用游戏手柄遥操机械臂                 |
 | [手眼标定](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/handeye) | Piper手眼标定教程                 |
+| [GraspGen](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/GraspGen) | 位姿生成与抓取                 |
 
 更多内容欢迎关注松灵机器人
 

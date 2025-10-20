@@ -16,6 +16,7 @@ Current Focus: Piper Series Robotic Arm
 | [Piper Kinematics Package](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_kinematics) | Numerical inverse kinematics teaching and calling Piper's underlying analytical solver. |
 | [Gamepad Control](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/gamepad) | Use a gamepad to teleoperate the robotic arm. |
 | [Hand-eye calibration](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/handeye) | Piper hand-eye calibration tutorial. |
+| [GraspGen](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/GraspGen) | GraspGen is an system that generates robotic grasp poses for known objects. |
 
 For more content, follow 松灵机器人
 
