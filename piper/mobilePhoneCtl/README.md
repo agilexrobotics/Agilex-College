@@ -12,7 +12,7 @@ github链接：[https://github.com/agilexrobotics/Agilex-College/tree/master/pip
 
 ## 功能演示
 
-[![](https://i1.hdslb.com/bfs/archive/1eea279e1a2e6609e10a055ae29cfefc678ed2ad.jpg@672w_378h_1c.webp)](https://www.bilibili.com/video/BV1zvebzDEWR/)
+[![](https://i.ytimg.com/vi/WMK5KRgzJXU/oar2.jpg?sqp=-oaymwEoCJgDENAFSFqQAgHyq4qpAxcIARUAAIhC2AEB4gEKCBgQAhgGOAFAAQ==&rs=AOn4CLAjvJ9nijQAz4FoncwwMIaFZuV94g)](https://www.youtube.com/shorts/WMK5KRgzJXU)
 
 ## 环境配置
 

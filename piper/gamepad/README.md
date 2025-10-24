@@ -14,7 +14,7 @@ PiPER机械臂、手柄遥操、关节控制、位姿控制、夹爪控制、运
 
 ## 功能演示
 
-![](1.png)
+[![](https://i.ytimg.com/an_webp/smTTbOfdTlk/mqdefault_6s.webp?du=3000&sqp=CJXS7McG&rs=AOn4CLBfiWjTsfz7kRpplE8f4Wx6WtDRlg)](https://youtu.be/smTTbOfdTlk)
 
 ## 环境配置
 - 操作系统：Ubuntu 20.04或更高版本

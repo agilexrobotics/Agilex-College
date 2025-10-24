@@ -14,7 +14,7 @@ PiPER Robotic Arm, Gamepad Teleoperation, Joint Control, Pose Control, Gripper C
 
 ## Feature Demonstration
 
-![](1.png)
+[![](https://i.ytimg.com/an_webp/smTTbOfdTlk/mqdefault_6s.webp?du=3000&sqp=CJXS7McG&rs=AOn4CLBfiWjTsfz7kRpplE8f4Wx6WtDRlg)](https://youtu.be/smTTbOfdTlk)
 
 ## Environment Setup
 - Operating System: Ubuntu 20.04 or higher
