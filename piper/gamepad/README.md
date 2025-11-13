@@ -28,7 +28,7 @@ PiPER机械臂、手柄遥操、关节控制、位姿控制、夹爪控制、运
    cd Gamepad_PiPER
    ```
 
-- 安装通用的依赖库和运动学模块的依赖库（三选一，推荐使用cuRobo库）：
+- 安装通用的依赖库和运动学模块的依赖库（四选一，推荐使用pytracik库）：
 
    - 基于[pinocchio](https://github.com/stack-of-tasks/pinocchio)库（Python == 3.9，需要安装[piper_ros](https://github.com/agilexrobotics/piper_ros)，并source机械臂的ros工作空间，否则会找不到meshes文件）：
 
@@ -69,6 +69,21 @@ PiPER机械臂、手柄遥操、关节控制、位姿控制、夹爪控制、运
       ```
 
       需要在`main.py`和`main_virtual.py`文件中选择`from src.gamepad_curobo import RoboticArmController`
+
+   - 基于[pytracik](https://github.com/chenhaox/pytracik)库（Python >= 3.10）:
+
+      ```bash
+      conda create -n test_tracik python=3.10.* -y
+      conda activate test_tracik
+      pip3 install -r requirements_common.txt --upgrade
+      git clone https://github.com/chenhaox/pytracik.git
+      cd pytracik
+      pip install -r requirements.txt
+      sudo apt install libboost-all-dev libeigen3-dev liborocos-kdl-dev libnlopt-dev libnlopt-cxx-dev
+      python setup_linux.py install
+      ```
+
+      需要在`main.py`和`main_virtual.py`文件中选择`from src.gamepad_trac_ik import RoboticArmController`
 
 ## 执行步骤
 

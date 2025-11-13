@@ -28,7 +28,7 @@ PiPER Robotic Arm, Gamepad Teleoperation, Joint Control, Pose Control, Gripper C
    cd Gamepad_PiPER
    ```
 
-- Install the general dependency libraries and the dependency libraries for the kinematics module (choose one, cuRobo library is recommended):
+- Install the general dependency libraries and the dependency libraries for the kinematics module (choose one, pytracik library is recommended):
 
    - Based on the [pinocchio](https://github.com/stack-of-tasks/pinocchio) library (Python == 3.9, requires installing [piper_ros](https://github.com/agilexrobotics/piper_ros) and sourcing the robotic arm's ROS workspace; otherwise, mesh files will not be found.):
 
@@ -69,6 +69,21 @@ PiPER Robotic Arm, Gamepad Teleoperation, Joint Control, Pose Control, Gripper C
       ```
 
       You need to select `from src.gamepad_curobo import RoboticArmController` in the `main.py` and `main_virtual.py` files.
+
+   - Based on the [pytracik](https://github.com/chenhaox/pytracik)library（Python >= 3.10）:
+
+      ```bash
+      conda create -n test_tracik python=3.10.* -y
+      conda activate test_tracik
+      pip3 install -r requirements_common.txt --upgrade
+      git clone https://github.com/chenhaox/pytracik.git
+      cd pytracik
+      pip install -r requirements.txt
+      sudo apt install libboost-all-dev libeigen3-dev liborocos-kdl-dev libnlopt-dev libnlopt-cxx-dev
+      python setup_linux.py install
+      ```
+
+      You need to select `from src.gamepad_trac_ik import RoboticArmController` in the `main.py` and `main_virtual.py` files.
 
 ## Execution Steps
 
