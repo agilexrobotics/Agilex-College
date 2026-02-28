@@ -23,7 +23,7 @@
 | [Isaac sim 导入piper](https://github.com/agilexrobotics/Agilex-College/tree/master/isaac_sim/piper_isaac_sim) | 在Isaac sim 中导入piper并添加摄像头             |
 | [复现RDA_planner](https://github.com/agilexrobotics/Agilex-College/tree/master/limo/RDA_planner) | 复现RDA_planner                                 |
 | [Piper_moveit](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_moveit) | 从零到玩转Moveit 机械臂控制（ROS1）             |
-| [Nero_moveit](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/nero_moveit) | 从零到玩转Moveit 机械臂控制（ROS2）             |
+| [Nero_moveit](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/nero_moveit2) | 从零到玩转Moveit 机械臂控制（ROS2）             |
 
 更多内容欢迎关注松灵机器人
 
