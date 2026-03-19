@@ -11,7 +11,7 @@ ROS2、moveit2、机械臂、nero
 ## 仓库
 
 - **导航仓库**: https://github.com/agilexrobotics/Agilex-College
-- **项目仓库**: https://github.com/agilexrobotics/piper/piper_moveit2.git
+- **项目仓库**: https://github.com/agilexrobotics/Agilex-College/tree/master/piper/nero_moveit2
 
 ## 使用环境
 
