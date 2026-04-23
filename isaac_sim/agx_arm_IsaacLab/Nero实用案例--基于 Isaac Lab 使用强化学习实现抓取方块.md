@@ -1,4 +1,4 @@
-# Nero实用案例--基于 Isaac Lab 使用强化学习实现到达目标点
+# Nero实用案例--基于 Isaac Lab 使用强化学习实现抓取方块到达目标点
 
 在机器人研究领域，机械臂的智能控制一直是具身智能研究的核心方向之一。传统的运动学控制方案虽然稳定，但面对复杂的非结构化环境往往束手无策，而强化学习技术的出现，为机械臂实现自主适应环境、完成复杂任务提供了全新的可能。
 
@@ -352,7 +352,7 @@ class NeroLiftCubeEnvCfg_PLAY(NeroLiftCubeEnvCfg):
 
 ```
 
-nero_reach_env_cfg.py包含任务的基础环境配置，任务奖励、惩罚、策略、目标点位置、方块位置等都是在这里设置
+nero_lift_env_cfg.py包含任务的基础环境配置，任务奖励、惩罚、策略、目标点位置、方块位置等都是在这里设置
 
 ```python
 # Copyright (c) 2024-2025, Muammer Bay (LycheeAI), Louis Le Lay
@@ -677,7 +677,7 @@ gym.register(
 
 ```
 
-## 六、训练reach任务
+## 六、训练Lift任务
 
 激活conda 环境
 
