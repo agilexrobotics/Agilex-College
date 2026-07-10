@@ -22,7 +22,7 @@ Current Focus: Piper Series Robotic Arm
 | [Deploy RDA_planner](https://github.com/agilexrobotics/Agilex-College/tree/master/limo/RDA_planner) | Deploy RDA_planner |
 | [Piper_moveit](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_moveit) | From Zero to Hero: MoveIt! Robotic Arm Control (ROS1、piper) |
 | [Nero_moveit](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/nero_moveit2) | From Zero to Hero: MoveIt! Robotic Arm Control (ROS2、nero) |
-| [Data Collection Based on IsaacLab](https://github.com/szyzp/IsaacLab_Data_Collection) | Data Collection Using Piper and Nero in IsaacLab Environment |
+| [Data Collection Based on IsaacLab](https://github.com/agilexrobotics/Agilex-College/tree/master/isaac_sim/agx_arm_IsaacLab/IsaacLab_Data_Collection) | Data Collection Using Piper and Nero in IsaacLab Environment |
 
 For more content, follow 松灵机器人
 

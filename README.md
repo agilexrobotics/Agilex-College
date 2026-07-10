@@ -24,7 +24,7 @@
 | [复现RDA_planner](https://github.com/agilexrobotics/Agilex-College/tree/master/limo/RDA_planner) | 复现RDA_planner                                     |
 | [Piper_moveit](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/piper_moveit) | 从零到玩转Moveit 机械臂控制（ROS1）                 |
 | [Nero_moveit](https://github.com/agilexrobotics/Agilex-College/tree/master/piper/nero_moveit2) | 从零到玩转Moveit 机械臂控制（ROS2）                 |
-| [IsaacLab数据采集](https://github.com/szyzp/IsaacLab_Data_Collection) | 在 IsaacLab 环境中使用Piper和Nero进行遥操作数据采集 |
+| [IsaacLab数据采集](https://github.com/agilexrobotics/Agilex-College/tree/master/isaac_sim/agx_arm_IsaacLab/IsaacLab_Data_Collection) | 在 IsaacLab 环境中使用Piper和Nero进行遥操作数据采集 |
 
 更多内容欢迎关注松灵机器人
 
