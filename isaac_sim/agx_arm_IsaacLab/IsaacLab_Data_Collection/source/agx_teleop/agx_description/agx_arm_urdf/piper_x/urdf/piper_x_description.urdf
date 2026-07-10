@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="piper_x">
+    <link name="world"/>
+    <joint name="world_to_base_link" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    <link name="base_link">
+        <inertial>
+            <origin xyz="-0.00473641164191482 2.56829134630247E-05 0.041451518036016" rpy="0 0 0"/>
+            <mass value="1.02" />
+            <inertia ixx="0.00267433" ixy="-0.00000073" ixz="-0.00017389" iyy="0.00282612" iyz="0.0000004" izz="0.00089624"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/dae/base_link.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/base_link.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="link1">
+        <inertial>
+            <origin xyz="0.00053 -0.00039 -0.00315" rpy="0 0 0"/>
+            <mass value="0.71"/>
+            <inertia ixx="0.00050027" ixy="0.00000078" ixz="0.00000626" iyy="0.00040879" iyz="0.00000462" izz="0.00045802"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/dae/link1.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/link1.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint1" type="revolute">
+        <origin xyz="0 0 0.123" rpy="0 0 3.1415926"/>
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-2.6179938" upper="2.6179938" effort="100" velocity="5"/>
+    </joint>
+    <link name="link2">
+        <inertial>
+            <origin xyz="0.21856 -0.00859 0.00227" rpy="0 0 0"/>
+            <mass value="1.16"/>
+            <inertia ixx="0.00111915" ixy="0.00182916" ixz="0.00019233" iyy="0.06763251" iyz="0.00000767" izz="0.067559"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/dae/link2.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/link2.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint2" type="revolute">
+        <origin xyz="0 0 0" rpy="-1.5707963 -3.005806 -3.1415926"/>
+        <parent link="link1"/>
+        <child link="link2"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0" upper="3.1415926" effort="100" velocity="5"/>
+    </joint>
+    <link name="link3">
+        <inertial>
+            <origin xyz="0.2014 -0.00418 -0.00141" rpy="0 0 0"/>
+            <mass value="0.67"/>
+            <inertia ixx="0.00033471" ixy="0.00026891" ixz="0.00013918" iyy="0.03360411" iyz="0.00000052" izz="0.03356941"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/dae/link3.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/link3.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint3" type="revolute">
+        <origin xyz="0.28503 0 0" rpy="0 0 2.8380798"/>
+        <parent link="link2"/>
+        <child link="link3"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-2.9670597" upper="0" effort="100" velocity="5"/>
+    </joint>
+    <link name="link4">
+        <inertial>
+            <origin xyz="0.059 -0.05831 0.002" rpy="0 0 0"/>
+            <mass value="0.39"/>
+            <inertia ixx="0.00120173" ixy="0.00138165" ixz="0.00001187" iyy="0.00209324" iyz="0.00000217" izz="0.00307814"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/dae/link4.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/link4.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint4" type="revolute">
+        <origin xyz="0.27364 0 0" rpy="0 0 0.0806342"/>
+        <parent link="link3"/>
+        <child link="link4"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.553343" upper="1.553343" effort="100" velocity="5"/>
+    </joint>
+    <link name="link5">
+        <inertial>
+            <origin xyz="0.00005 -0.01282 -0.00429" rpy="0 0 0"/>
+            <mass value="0.35"/>
+            <inertia ixx="0.00022660" ixy="0.00000019" ixz="0.00000005" iyy="0.00017740" iyz="0.00000085" izz="0.00019425"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/dae/link5.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/link5.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint5" type="revolute">
+        <origin xyz="0.07466 0 0" rpy="-1.5707963 1.5707963 0"/>
+        <parent link="link4"/>
+        <child link="link5"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.553343" upper="1.553343" effort="100" velocity="5"/>
+    </joint>
+    <link name="link6">
+        <inertial>
+            <origin xyz="0 0 -0.0035" rpy="0 0 0"/>
+            <mass value="0.007"/>
+            <inertia ixx="0.00152112" ixy="0.00000202" ixz="0.00000261" iyy="0.00138626" iyz="0.00000002" izz="0.00031152"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/dae/link6.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_x/meshes/link6.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint6" type="revolute">
+        <origin xyz="0 -0.035 0" rpy="1.5707963 0 0"/>
+        <parent link="link5"/>
+        <child link="link6"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-2.0943951" upper="2.0943951" effort="100" velocity="5"/>
+    </joint>
+</robot>

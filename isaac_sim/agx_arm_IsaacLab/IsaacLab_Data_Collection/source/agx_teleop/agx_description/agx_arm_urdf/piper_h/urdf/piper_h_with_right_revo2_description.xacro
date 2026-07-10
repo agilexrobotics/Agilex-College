@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="piper_h">
+<xacro:include filename="$(find agx_arm_description)/agx_arm_urdf/revo2/urdf/revo2_right_hand.urdf"/>
+<xacro:include filename="$(find agx_arm_description)/agx_arm_urdf/piper_h/urdf/piper_h_description.urdf"/>
+    <link name="flange_link">
+        <inertial>
+            <origin xyz="0.0 0.0 0.004" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="0.00000001" ixy="0.00000000" ixz="0.00000000" iyy="0.00000001" iyz="0.00000000" izz="0.00000001"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_h/meshes/dae/flange.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://agx_arm_description/agx_arm_urdf/piper_h/meshes/flange.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="flange_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="link6"/>
+        <child link="flange_link"/>
+    </joint>
+    <joint name="hand_base_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.008" rpy="0 0 0"/>
+        <parent link="flange_link"/>
+        <child link="right_base_link"/>
+        <axis xyz="0 0 0"/>
+        <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
+    </joint>
+</robot>
