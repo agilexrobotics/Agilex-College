@@ -8,7 +8,7 @@
 ## 安装
 
 ### 1. 前置要求
-- 已安装并配置好 Isaac Sim 和 IsaacLab。
+- 已安装并配置好 Isaac Sim=5.1.0.0 和 IsaacLab=0.54.3。
 - IsaacLab 安装对应的名为 `isaaclab` 的 Conda 虚拟环境。
 
 ### 2. 安装项目
