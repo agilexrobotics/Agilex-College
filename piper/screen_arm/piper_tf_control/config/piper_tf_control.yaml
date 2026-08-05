@@ -1,0 +1,18 @@
+piper_tf_control:
+  ros__parameters:
+    # Piper 驱动的 PosCmd 和 end_pose 默认使用 base_link 下的米、弧度。
+    base_frame: base_link
+    target_frame: arm_pose
+    command_topic: pos_cmd
+    feedback_topic: end_pose
+    # 控制器内部上限为 100 Hz。
+    publish_rate_hz: 100.0
+    smoothing_enabled: true
+    max_linear_speed_m_s: 0.12
+    max_angular_speed_rad_s: 0.6
+    position_deadband_m: 0.02
+    angle_deadband_rad: 0.03
+
+    gripper: 0.0
+    mode1: 0
+    mode2: 0

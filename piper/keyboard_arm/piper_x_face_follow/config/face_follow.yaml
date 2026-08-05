@@ -1,0 +1,90 @@
+piper_x_face_follow_controller:
+  ros__parameters:
+    # False is the safe default. The launch argument must explicitly override it.
+    actual_motion: false
+    feedback_topic: /joint_states_single
+    command_topic: /joint_ctrl_single
+    face_topic: /face_landmarks_2d
+    hand_topic: /human_tracking/hand_midpoint
+    tracking_source: face
+    tf_calibrated: false
+    control_frame_mode: camera_image_servo
+    control_rate_hz: 10.0
+    face_timeout_sec: 0.6
+    feedback_timeout_sec: 0.3
+    stable_samples: 8
+    stable_span_px: 18.0
+    image_center_u: 320.0
+    image_center_v: 240.0
+    deadband_u_px: 24.0
+    deadband_v_px: 20.0
+
+    # Start with small corrections. In preview, verify direction before real use.
+    j1_gain_rad_per_px: -0.0008
+    j2_gain_rad_per_px: 0.00045
+    j3_gain_rad_per_px: -0.00045
+    j1_max_offset_deg: 6.0
+    j23_max_offset_deg: 4.0
+    max_speed_deg_s: 2.0
+    # piper_ros uses velocity[6] as its global speed percentage.
+    driver_speed_percent: 5
+
+    # Ignore the driver's zero-valued startup placeholder, then lock J6 only
+    # after a short window of stable, timestamped CAN feedback.
+    j6_drift_limit_deg: 0.5
+    feedback_latch_settle_sec: 0.5
+    feedback_latch_span_deg: 0.5
+    require_nonzero_feedback_stamp: true
+    require_arm_status: true
+    desired_hand_x_m: 0.0
+    desired_hand_y_m: 0.12
+    desired_hand_z_m: 0.55
+    hand_stable_span_m: 0.04
+    j1_gain_rad_per_m: -0.70
+    j2_vertical_gain_rad_per_m: 0.25
+    j3_vertical_gain_rad_per_m: -0.25
+    # Reach direction must be calibrated on the physical PIPER-X, so disabled.
+    j2_depth_gain_rad_per_m: 0.0
+    j3_depth_gain_rad_per_m: 0.0
+
+face_center_detector:
+  ros__parameters:
+    image_topic: /camera/color/image_raw
+    landmarks_topic: /face_landmarks_2d
+    debug_topic: /face_landmarks_debug_image
+    max_fps: 30.0
+    min_face_px: 70
+
+mediapipe_body_hands:
+  ros__parameters:
+    color_topic: /camera/color/image_raw
+    depth_topic: /camera/depth/image_raw
+    camera_info_topic: /camera/color/camera_info
+    base_frame: base_link
+    # DaBai DC1 publishes at 30 FPS.  The robot servo itself runs at 150 Hz
+    # and uses the Kalman prediction between these camera measurements.
+    max_fps: 30.0
+    depth_sync_tolerance_sec: 0.20
+    max_latest_depth_age_sec: 0.50
+    depth_window_radius: 4
+    min_depth_m: 0.20
+    max_depth_m: 3.00
+    min_visibility: 0.55
+    state_stable_samples: 8
+    side_threshold_norm: 0.10
+    standing_hip_knee_norm: 0.16
+    # J6-mounted camera: ordinary reaching hands are often 0.3-0.7 m away.
+    # Freeze only at extremely close range until tray-volume detection exists.
+    hands_on_keyboard_max_depth_m: 0.0
+    publish_debug_image: true
+    hands_only_servo_mode: true
+    hand_memory_sec: 0.35
+
+ergonomic_target:
+  ros__parameters:
+    base_frame: base_link
+    stable_samples: 10
+    stable_span_m: 0.04
+    target_timeout_sec: 0.8
+    keyboard_below_hands_m: 0.075
+    keyboard_toward_user_m: 0.02

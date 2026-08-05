@@ -1,0 +1,119 @@
+orbbec_face_landmark:
+  ros__parameters:
+    # 彩色图像话题。当前相机实际发布：/camera/color/image_raw
+    color_image_topic: /camera/color/image_raw
+
+    # 彩色相机内参话题。用于 2D 像素点反投影到相机坐标系 3D 点。
+    # 当前相机实际发布：/camera/color/camera_info
+    color_camera_info_topic: /camera/color/camera_info
+
+    # 深度图话题。启动 OrbbecSDK_ROS2 时加 depth_registration:=true 后，
+    # /camera/depth/image_raw 会对齐到彩色图。
+    # 注意：当前话题列表里的 /camera/depth_to_color 不是 Image 话题，不能作为深度输入。
+    aligned_depth_topic: /camera/depth/image_raw
+
+    # 输出：选中人脸的 2D 关键点。
+    landmarks_2d_topic: /face_landmarks_2d
+
+    # 输出：选中人脸的 3D 关键点。只有深度图和相机内参可用时发布。
+    landmarks_3d_topic: /face_landmarks_3d
+
+    # 输出：由左眼、右眼、鼻子三个 3D 点构造的人脸位姿。
+    # 原点为鼻子，x 轴平行左右眼连线，xy 平面为左眼/右眼/鼻子平面，z 轴指向脑后。
+    face_pose_topic: /face_pose
+
+    # 输出：所有检测到的人脸框。
+    detections_topic: /face_detections_2d
+
+    # 输出：绘制人脸框和关键点后的调试图像。
+    debug_image_topic: /face_landmarks_debug_image
+
+    # 输出：节点状态和错误信息。
+    status_topic: /orbbec_face_landmark/status
+
+    # 人脸位姿目标坐标系。当前 Orbbec launch 发布的相机基坐标是 camera_link。
+    # 如果系统另有 base_link -> camera_link 静态 TF，可改成 base_link。
+    target_frame: camera_link
+
+    # 发布的人脸 TF 子坐标系名称。
+    face_frame_id: face
+
+    # YOLOv5-Face nano ONNX 模型路径。
+    # 下载后放到：
+    # 通过 SCREEN_FACE_MODEL 或 launch 参数传入，不在仓库中提交模型。
+    model_path: "/home/agilex/tests/piper-x-smart-workstation/screen_arm_ws/src/orbbec_face_landmark/config/yolov5n_face.onnx"
+
+    # 推理后端。auto/onnxruntime 优先使用 ONNX Runtime。
+    inference_backend: onnxruntime
+
+    # 当前机器使用 RTX 3060，使用 ONNX Runtime CUDA。
+    # 如果 CUDA provider 不可用，节点会自动回退到 OpenCV CPU。
+    device: cuda:0
+
+    # 模型输入尺寸。当前 ONNX 模型固定使用 640。
+    img_size: 640
+
+    # 人脸检测置信度阈值。
+    confidence_threshold: 0.6
+
+    # NMS IoU 阈值，用于合并重叠人脸框。
+    iou_threshold: 0.5
+
+    # 单帧最多保留的人脸数量。
+    max_det: 20
+
+    # 最大推理频率，单位 Hz。设置为 0 或负数表示不主动限频。
+    max_fps: 0.0
+    profile_inference: false
+
+    # 当前 dabai.launch.py 的图像 publisher 是 reliable，使用 reliable
+    # 订阅可避免 best_effort 在高帧率下丢掉一半彩色帧。
+    use_sensor_data_qos: false
+
+    # 多人脸时是否选择面积最大的人脸作为 /face_landmarks_2d 和 /face_landmarks_3d 的目标。
+    select_largest_face: true
+
+    # 是否发布调试图像。正式运行默认关闭以提高位姿输出帧率。
+    publish_debug_image: true
+
+    # 没检测到人脸时是否发布空的 2D 数组。
+    publish_empty_2d: false
+
+    # 没检测到人脸时是否发布空的 Detection2DArray。
+    publish_empty_detections: true
+
+    # 是否启用深度反投影。关闭后仍会发布 2D 关键点。
+    enable_depth_projection: true
+
+    # 深度采样窗口半径。3 表示在关键点周围取 7x7 窗口中位数。
+    depth_window_radius: 3
+
+    # 有效最小深度，单位米。
+    min_depth_m: 0.2
+
+    # 有效最大深度，单位米。
+    max_depth_m: 5.0
+
+    # 时间滤波。开启后：
+    # 1) 2D 关键点和框使用 landmark_filter_alpha 做 EMA；
+    # 2) 3D 关键点和最终人脸位姿使用 depth_filter_alpha 做 EMA。
+    # alpha 越小越平滑，但响应越慢；alpha=1 表示不滤波。
+    enable_temporal_filter: true
+    landmark_filter_alpha: 0.35
+    depth_filter_alpha: 0.25
+
+    # 三点构造姿态的几何有效性阈值。
+    min_eye_distance_m: 0.02
+    min_plane_normal_norm: 0.0001
+
+    # 是否同时发布 target_frame -> face 的 TF。
+    publish_face_tf: true
+
+    # 调试图像中人脸框线宽。
+    debug_thickness: 2
+
+    # 调试图像中文字大小。
+    debug_font_scale: 0.6
+
+    # 调试图像中人脸框颜色，格式为 BGR。
+    debug_color_box: [0, 255, 0]

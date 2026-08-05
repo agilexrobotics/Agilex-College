@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PYTHON_EXECUTABLE="${PIPER_X_FACE_PYTHON:-python3}"
+
+exec "${PYTHON_EXECUTABLE}" \
+  -m piper_x_face_follow.mediapipe_body_hand_node "$@"

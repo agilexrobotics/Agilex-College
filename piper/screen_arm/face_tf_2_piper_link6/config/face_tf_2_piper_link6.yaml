@@ -1,0 +1,19 @@
+face_tf_2_piper_link6:
+  ros__parameters:
+    # 输入 TF：base_link -> face。
+    base_frame: base_link
+    face_frame: face
+
+    # 输出 TF：base_link -> arm_pose，给 piper_tf_control 跟随。
+    target_frame: arm_pose
+    publish_rate_hz: 30.0
+
+    # face 坐标系下，从 face 到期望机械臂末端目标点的平移偏移。
+    # 默认来自规格中的 tf2_echo face link6:
+    # Translation: [-0.189, -0.044, -0.478]
+    offset_xyz: [-0.189, -0.044, -0.478]
+
+    # arm_pose 在 base_link 下的固定 RPY，单位 rad。
+    # 默认来自规格中的 tf2_echo base_link link6:
+    # Rotation in RPY: [0.306, 1.403, 0.280]
+    target_rpy: [0.306, 1.403, 0.280]

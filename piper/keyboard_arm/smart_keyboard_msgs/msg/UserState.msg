@@ -1,0 +1,14 @@
+std_msgs/Header header
+bool person_detected
+uint8 person_count
+float32 confidence
+float32 center_x
+float32 center_y
+float32 distance_m
+float32 torso_yaw_deg
+float32 torso_pitch_deg
+string pose
+bool hands_on_keyboard
+bool hands_clear
+float32 stable_duration_sec
+string source

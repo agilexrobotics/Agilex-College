@@ -1,0 +1,4 @@
+string reason
+---
+bool success
+string message

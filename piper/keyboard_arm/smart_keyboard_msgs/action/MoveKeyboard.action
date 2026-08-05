@@ -1,0 +1,13 @@
+# Goal
+string target_mode
+geometry_msgs/PoseStamped target_pose
+float32 speed_scale
+---
+# Result
+bool success
+string message
+geometry_msgs/PoseStamped final_pose
+---
+# Feedback
+float32 progress
+string status

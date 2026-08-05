@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PYTHON_EXECUTABLE="${SCREEN_FACE_PYTHON:-python3}"
+
+if [[ "${SCREEN_FACE_USE_USER_SITE:-0}" != "1" ]]; then
+  export PYTHONNOUSERSITE=1
+fi
+
+exec "${PYTHON_EXECUTABLE}" \
+  -m orbbec_face_landmark.orbbec_face_landmark_node "$@"

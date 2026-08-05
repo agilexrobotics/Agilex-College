@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>piper_mujoco</name>
+  <version>0.0.0</version>
+  <description>The piper_mujoco package</description>
+
+  <maintainer email="tian@todo.todo">tian</maintainer>
+  <license>TODO</license>
+
+  <!-- 依赖项 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>rclpy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

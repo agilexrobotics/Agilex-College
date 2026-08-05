@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec /usr/bin/python3 -m orbbec_face_landmark.orbbec_face_landmark_node "$@"

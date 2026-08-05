@@ -1,0 +1,9 @@
+std_msgs/Header header
+string current_mode
+string requested_mode
+bool arm_connected
+bool arm_enabled
+bool moving
+bool safety_ok
+bool perception_ok
+string error_message
