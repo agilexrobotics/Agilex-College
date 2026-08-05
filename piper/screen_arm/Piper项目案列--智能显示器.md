@@ -38,8 +38,7 @@ PiPER机械臂移动显示屏
 ```bash
 mkdir -p agilex_ws/src
 cd ~/agilex_ws/src
-git clone 
-
+git clone https://github.com/smalleha/Adx_PiPER_Intelligent_workstation.git
 ```
 
 ### 下载机械臂模型
