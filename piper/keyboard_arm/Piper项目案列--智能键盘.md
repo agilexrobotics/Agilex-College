@@ -1,6 +1,6 @@
 # PiPER项目案列--智能键盘
 
-将PiPER和键盘结合，使用深度相机检测用户手部位置，自动调整键盘，使键盘保持在用户面前合适的位置。该项目是在杭州AdventureX中开发的demo
+将PiPER和键盘结合，使用深度相机检测用户手部位置，自动调整键盘，使键盘保持在用户面前合适的位置。该项目是在杭州AdventureX中开发的demo，使用的时候注意安全
 
 其数据流程为：
 
@@ -123,6 +123,14 @@ j1_gain_rad_per_m:=0.70
 
 ![](./img/PiPER--智能键盘.gif)
 
-## 参考项目
+## 致谢
+
+感谢AdventureX 松灵赛道--智能人体工学工作站--摆烂大队，提供的绝佳创意，开源的项目案例
+
+开源链接：
 
 [PIPER-X Smart Workstation](https://github.com/lansijian/piper-x-smart-workstation/tree/main)
+
+demo 视频：
+
+https://www.bilibili.com/video/BV1eZ336pEAr?t=1.4
